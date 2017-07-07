@@ -53,12 +53,12 @@ class TenderArchivariusResourceTest(BaseTenderArchivariusWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertIn('data', response.json)
 
-        response = self.app.get('/tenders/{}/dump'.format(self.tender_id), status=404)
-        self.assertEqual(response.status, '404 Not Found')
+        response = self.app.get('/tenders/{}/dump'.format(self.tender_id), status=410)
+        self.assertEqual(response.status, '410 Gone')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['status'], 'error')
         self.assertEqual(response.json['errors'], [
-            {u'description': u'Not Found', u'location': u'url', u'name': u'tender_id'}
+            {u'description': u'Archived', u'location': u'url', u'name': u'tender_id'}
         ])
 
         self.app.authorization = ('Basic', ('broker', ''))
